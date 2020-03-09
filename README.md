@@ -12,8 +12,6 @@ npm install
 npm run build
 ```
 
-Output to `dist` folder.
-
 ## Develop
 
 ```
