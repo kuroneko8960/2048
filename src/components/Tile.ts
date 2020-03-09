@@ -39,6 +39,10 @@ export default class Tile extends PIXI.Container {
     new TileColor(0xDD2C00, 0xFFFFFF),
   ]
 
+  static WIDTH = 64
+  static HEIGHT = 64
+  static NUMBER_SIZE = 24
+
   private _tileX: number
   private _tileY: number
   private _tier: number
@@ -76,22 +80,22 @@ export default class Tile extends PIXI.Container {
   createSprites() {
     const shape = new PIXI.Graphics()
     shape.beginFill(0xFFFFFF)
-    shape.drawRoundedRect(0, 0, 64, 64, 16)
+    shape.drawRoundedRect(0, 0, Tile.WIDTH, Tile.HEIGHT, Tile.WIDTH / 4)
     shape.endFill()
     this.addChild(shape)
     this._shape = shape
 
     const text = new PIXI.Text('0', {
       fontFamily: 'Bellota',
-      fontSize: 24,
+      fontSize: Tile.NUMBER_SIZE,
     })
     text.anchor.set(0.5, 0.5)
-    text.x = 32
-    text.y = 32
+    text.x = Tile.WIDTH / 2
+    text.y = Tile.HEIGHT / 2
     shape.addChild(text)
     this._numberText = text
 
-    this.pivot.set(32, 32)
+    this.pivot.set(Tile.WIDTH / 2, Tile.HEIGHT / 2)
   }
 
   updateSprites() {

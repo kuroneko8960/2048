@@ -11,8 +11,9 @@ interface TilePosition {
 export default class Board extends PIXI.Container {
   static COLS = 4
   static ROWS = 4
-  static WIDTH = 64 * Board.COLS + (8 * (Board.COLS + 1))
-  static HEIGHT = 64 * Board.ROWS + (8 * (Board.ROWS + 1))
+  static SPACE = 8
+  static WIDTH = Tile.WIDTH * Board.COLS + (Board.SPACE * (Board.COLS + 1))
+  static HEIGHT = Tile.HEIGHT * Board.ROWS + (Board.SPACE * (Board.ROWS + 1))
 
   private _tiles: Tile[]
   private _shape!: PIXI.Graphics
@@ -32,8 +33,8 @@ export default class Board extends PIXI.Container {
 
   update(delta: number) {
     this._tiles.forEach((tile) => {
-      tile.x = tile.tileX * (64 + 8) + 8 + 32
-      tile.y = tile.tileY * (64 + 8) + 8 + 32
+      tile.x = tile.tileX * (Tile.WIDTH + Board.SPACE) + Board.SPACE + Tile.WIDTH / 2
+      tile.y = tile.tileY * (Tile.HEIGHT + Board.SPACE) + Board.SPACE + Tile.HEIGHT / 2
       tile.update(delta)
     })
   }
@@ -41,7 +42,7 @@ export default class Board extends PIXI.Container {
   createSprites() {
     const shape = new PIXI.Graphics()
     shape.beginFill(0xF5F5F5)
-    shape.drawRoundedRect(0, 0, 64 * 4 + 8 * 5, 64 * 4 + 8 * 5, 16)
+    shape.drawRoundedRect(0, 0, Board.WIDTH, Board.HEIGHT, 16)
     shape.endFill()
     this.addChild(shape)
     this._shape = shape
