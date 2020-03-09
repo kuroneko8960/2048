@@ -27,7 +27,7 @@ export default class App {
       }
     })
 
-    const hammer = new Hammer(element)
+    const hammer = new Hammer(document.querySelector('body') as HTMLBodyElement)
     hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
     hammer.get('press').set({ time: 100 })
     hammer.on('press', () => {
