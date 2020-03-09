@@ -108,19 +108,24 @@ export default class Board extends PIXI.Container {
   process(slide: Direction) {
     if (this.status !== BoardStatus.IN_GAME) { return }
 
+    let moved = false
     switch (slide) {
       case Direction.LEFT:
-        this.slideLeft()
+        moved = this.slideLeft()
         break
       case Direction.UP:
-        this.slideUp()
+        moved = this.slideUp()
         break
       case Direction.RIGHT:
-        this.slideRight()
+        moved = this.slideRight()
         break
       case Direction.DOWN:
-        this.slideDown()
+        moved = this.slideDown()
         break
+    }
+
+    if (!moved) {
+      return
     }
 
     if (this._tiles.find(tile => tile.tier >= 11)) {
@@ -134,6 +139,7 @@ export default class Board extends PIXI.Container {
   }
 
   slideLeft() {
+    let moved = false
     this._tiles.sort((a, b) => a.tileX - b.tileX)
     this._tiles.forEach((tile) => {
       while(tile.tileX > 0) {
@@ -146,13 +152,17 @@ export default class Board extends PIXI.Container {
         }
 
         tile.moveTo(tile.tileX - 1, tile.tileY)
+        moved = true
       }
     })
 
     this.cleanUp()
+
+    return moved
   }
 
   slideRight() {
+    let moved = false
     this._tiles.sort((a, b) => b.tileX - a.tileX)
     this._tiles.forEach((tile) => {
       while(tile.tileX < Board.COLS - 1) {
@@ -165,13 +175,16 @@ export default class Board extends PIXI.Container {
         }
 
         tile.moveTo(tile.tileX + 1, tile.tileY)
+        moved = true
       }
     })
 
     this.cleanUp()
+    return moved
   }
 
   slideUp() {
+    let moved = false
     this._tiles.sort((a, b) => a.tileY - b.tileY)
     this._tiles.forEach((tile) => {
       while(tile.tileY > 0) {
@@ -184,13 +197,16 @@ export default class Board extends PIXI.Container {
         }
 
         tile.moveTo(tile.tileX, tile.tileY - 1)
+        moved = true
       }
     })
 
     this.cleanUp()
+    return moved
   }
 
   slideDown() {
+    let moved = false
     this._tiles.sort((a, b) => b.tileY - a.tileY)
     this._tiles.forEach((tile) => {
       while(tile.tileY < Board.ROWS - 1) {
@@ -203,10 +219,12 @@ export default class Board extends PIXI.Container {
         }
 
         tile.moveTo(tile.tileX, tile.tileY + 1)
+        moved = true
       }
     })
   
     this.cleanUp()
+    return moved
   }
 
   cleanUp() {
