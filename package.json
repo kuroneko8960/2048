@@ -11,10 +11,12 @@
   "author": "kuroneko8960",
   "license": "ISC",
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "pixi.js": "^5.2.1",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@types/hammerjs": "^2.0.36",
     "@types/webfontloader": "^1.6.29",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
     "@typescript-eslint/parser": "^2.22.0",
