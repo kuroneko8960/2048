@@ -105,6 +105,10 @@ export default class Board extends PIXI.Container {
     this.spawnTile(3)
   }
 
+  isTileFilled() {
+    return this.getEmptyPositions().length === 0
+  }
+
   process(slide: Direction) {
     if (this.status !== BoardStatus.IN_GAME) { return }
 
@@ -124,6 +128,11 @@ export default class Board extends PIXI.Container {
         break
     }
 
+    if (this.isTileFilled()) {
+      this._status = BoardStatus.LOSE
+      return 
+    }
+
     if (!moved) {
       return
     }
@@ -133,9 +142,7 @@ export default class Board extends PIXI.Container {
       return
     }
 
-    if (!this.spawnTile()) {
-      this._status = BoardStatus.LOSE
-    }
+    this.spawnTile()
   }
 
   slideLeft() {
@@ -147,6 +154,7 @@ export default class Board extends PIXI.Container {
         if (other) {
           if (other.tier === tile.tier) {
             this.merge(other, tile)
+            moved = true
           }
           return
         }
@@ -170,6 +178,7 @@ export default class Board extends PIXI.Container {
         if (other) {
           if (other.tier === tile.tier) {
             this.merge(other, tile)
+            moved = true
           }
           return
         }
@@ -192,6 +201,7 @@ export default class Board extends PIXI.Container {
         if (other) {
           if (other.tier === tile.tier) {
             this.merge(other, tile)
+            moved = true
           }
           return
         }
@@ -214,6 +224,7 @@ export default class Board extends PIXI.Container {
         if (other) {
           if (other.tier === tile.tier) {
             this.merge(other, tile)
+            moved = true
           }
           return
         }
