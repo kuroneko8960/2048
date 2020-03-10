@@ -1,8 +1,8 @@
 import Scene from '../core/Scene'
 import Board from '../components/Board'
 import Direction from '../enums/Direction'
-import LoseScreen, { LoseScreenAnimation } from '../components/LoseScreen'
-import WinScreen, { WinScreenAnimation } from '../components/WinScreen'
+import LoseScreen from '../components/LoseScreen'
+import WinScreen from '../components/WinScreen'
 import BoardStatus from '../enums/BoardStatus'
 
 export default class MainScene extends Scene {
