@@ -79,7 +79,7 @@ export default class Board extends PIXI.Container {
       const emptyPositions = this.getEmptyPositions()
       if (emptyPositions.length > 0) {
         const position = emptyPositions[Math.floor(Math.random() * emptyPositions.length)]
-        this.addTile(position.x, position.y, Math.floor(Math.random() * 3 + 1))
+        this.addTile(position.x, position.y, Math.floor(Math.random() * 2 + 1))
         spawned = true
       }
     }
@@ -102,7 +102,7 @@ export default class Board extends PIXI.Container {
     this.removeTiles()
     this._status = BoardStatus.IN_GAME
 
-    this.spawnTile(3)
+    this.spawnTile(2)
   }
 
   isTileFilled() {
