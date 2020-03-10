@@ -56,6 +56,7 @@ export default class Tile extends PIXI.Container {
   private _moveAnimation = 1
   private _preX = 0
   private _preY = 0
+  private _promoted = false
 
   get tileX() {
     return this._tileX
@@ -67,6 +68,10 @@ export default class Tile extends PIXI.Container {
 
   get tier() {
     return this._tier
+  }
+
+  get isPromoted() {
+    return this._promoted
   }
 
   constructor(x: number,y: number, tier: number) {
@@ -116,8 +121,13 @@ export default class Tile extends PIXI.Container {
     this._moveAnimation = 0
   }
 
+  prepare() {
+    this._promoted = false
+  }
+
   promote() {
     this._tier += 1
+    this._promoted = true
     this.updateSprites()
     this.startAnimation(TileAnimation.PROMOTE)
   }

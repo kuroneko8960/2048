@@ -110,6 +110,8 @@ export default class Board extends PIXI.Container {
   process(slide: Direction) {
     if (this.status !== BoardStatus.IN_GAME) { return }
 
+    this._tiles.forEach(tile => tile.prepare())
+
     let moved = false
     switch (slide) {
       case Direction.LEFT:
@@ -150,7 +152,7 @@ export default class Board extends PIXI.Container {
       while(tile.tileX > 0) {
         const other = this.getTileAt(tile.tileX - 1, tile.tileY)
         if (other) {
-          if (other.tier === tile.tier) {
+          if (!other.isPromoted && other.tier === tile.tier) {
             this.merge(other, tile)
             moved = true
           }
@@ -174,7 +176,7 @@ export default class Board extends PIXI.Container {
       while(tile.tileX < Board.COLS - 1) {
         const other = this.getTileAt(tile.tileX + 1, tile.tileY)
         if (other) {
-          if (other.tier === tile.tier) {
+          if (!other.isPromoted && other.tier === tile.tier) {
             this.merge(other, tile)
             moved = true
           }
@@ -197,7 +199,7 @@ export default class Board extends PIXI.Container {
       while(tile.tileY > 0) {
         const other = this.getTileAt(tile.tileX, tile.tileY - 1)
         if (other) {
-          if (other.tier === tile.tier) {
+          if (!other.isPromoted && other.tier === tile.tier) {
             this.merge(other, tile)
             moved = true
           }
@@ -220,7 +222,7 @@ export default class Board extends PIXI.Container {
       while(tile.tileY < Board.ROWS - 1) {
         const other = this.getTileAt(tile.tileX, tile.tileY + 1)
         if (other) {
-          if (other.tier === tile.tier) {
+          if (!other.isPromoted && other.tier === tile.tier) {
             this.merge(other, tile)
             moved = true
           }
