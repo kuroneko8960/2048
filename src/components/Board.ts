@@ -33,8 +33,6 @@ export default class Board extends PIXI.Container {
 
   update(delta: number) {
     this._tiles.forEach((tile) => {
-      tile.x = tile.tileX * (Tile.WIDTH + Board.SPACE) + Board.SPACE + Tile.WIDTH / 2
-      tile.y = tile.tileY * (Tile.HEIGHT + Board.SPACE) + Board.SPACE + Tile.HEIGHT / 2
       tile.update(delta)
     })
   }

@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import Board from './Board'
 
 enum TileAnimation {
   NONE,
@@ -52,6 +53,9 @@ export default class Tile extends PIXI.Container {
 
   private _animation = TileAnimation.NONE
   private _animationValue = 0
+  private _moveAnimation = 1
+  private _preX = 0
+  private _preY = 0
 
   get tileX() {
     return this._tileX
@@ -67,8 +71,8 @@ export default class Tile extends PIXI.Container {
 
   constructor(x: number,y: number, tier: number) {
     super()
-    this._tileX = x
-    this._tileY = y
+    this._tileX = this._preX = x
+    this._tileY = this._preY = y
     this._tier = tier
     this.startAnimation(TileAnimation.SPAWN)
 
@@ -79,8 +83,10 @@ export default class Tile extends PIXI.Container {
 
   createSprites() {
     const shape = new PIXI.Graphics()
-    shape.beginFill(0xFFFFFF)
+    shape.beginFill(0xE0E0E0)
     shape.drawRoundedRect(0, 0, Tile.WIDTH, Tile.HEIGHT, Tile.WIDTH / 4)
+    shape.beginFill(0xFFFFFF)
+    shape.drawRoundedRect(0, 0, Tile.WIDTH, Tile.HEIGHT - Tile.WIDTH / 16, Tile.WIDTH / 4)
     shape.endFill()
     this.addChild(shape)
     this._shape = shape
@@ -107,6 +113,7 @@ export default class Tile extends PIXI.Container {
   moveTo(x: number, y: number) {
     this._tileX = x
     this._tileY = y
+    this._moveAnimation = 0
   }
 
   promote() {
@@ -121,6 +128,16 @@ export default class Tile extends PIXI.Container {
   }
 
   update(delta: number) {
+    if (this._moveAnimation < 1) {
+      this._moveAnimation += delta / 10
+      if (this._moveAnimation > 1) {
+        this._preX = this._tileX
+        this._preY = this._tileY
+      }
+    }
+    this.x = (this.tileX + (this._preX - this._tileX) * (1 - this._moveAnimation)) * (Tile.WIDTH + Board.SPACE) + Board.SPACE + Tile.WIDTH / 2
+    this.y = (this.tileY + (this._preY - this._tileY) * (1 - this._moveAnimation)) * (Tile.HEIGHT + Board.SPACE) + Board.SPACE + Tile.HEIGHT / 2
+
     switch(this._animation) {
       case TileAnimation.NONE:
         this.scale.set(1)
@@ -131,7 +148,11 @@ export default class Tile extends PIXI.Container {
         break
       case TileAnimation.PROMOTE:
         this._animationValue += delta / 15
-        this.scale.set((1 - this._animationValue) * 0.5 + 1)
+        if (this._animationValue < 0.5) {
+          this.scale.set((this._animationValue * 2) * 0.5 + 1)
+        } else {
+          this.scale.set((2 - this._animationValue * 2) * 0.5 + 1)
+        }
         break
     }
 
