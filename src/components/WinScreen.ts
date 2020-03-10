@@ -33,7 +33,7 @@ export default class WinScreen extends PIXI.Container {
     congraturations.y = Board.HEIGHT / 3
     screen.addChild(congraturations)
 
-    const hitspace = new PIXI.Text('Space to Retry', {
+    const hitspace = new PIXI.Text('Tap to Retry', {
       fontFamily: 'Bellota',
       fontSize: 24,
       fill: 0xFFFFFF
