@@ -11,8 +11,6 @@ module.exports = {
 
   entry: "./main.ts",
 
-  devtool: "inline-source-map",
-
   module: {
     rules: [
       {
@@ -54,9 +52,4 @@ module.exports = {
       template: "index.html"
     })
   ],
-
-  devServer: {
-    contentBase: dist,
-    open: true,
-  },
 }

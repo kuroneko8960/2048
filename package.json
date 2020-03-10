@@ -4,7 +4,7 @@
   "description": "2048 Clone (made with pixi.js)",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config webpack.config.prod.js",
     "dev": "webpack-dev-server"
   },
   "keywords": [],
